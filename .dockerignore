@@ -1,0 +1,9 @@
+docker/
+.git/
+.gitignore
+.env_template
+collectstatic.sh
+create_superuser.sh
+migrate.sh
+README.MD
+run_script.sh

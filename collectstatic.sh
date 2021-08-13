@@ -1,0 +1,1 @@
+docker exec -ti django-osw4l-simple-container python3 manage.py collectstatic
