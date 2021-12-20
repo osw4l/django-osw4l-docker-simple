@@ -2,11 +2,11 @@ version: '3.7'
 
 networks:
   backend_network:
-  database_network:
 
 services:
+
   backend:
-    container_name: django-osw4l-simple-container
+    container_name: hospote-api-v1
     restart: on-failure
     build: .
     env_file: .env
@@ -14,24 +14,8 @@ services:
     volumes:
       - .:/app
       - ./static:/app/static
-    depends_on:
-      - database
     networks:
       - backend_network
-      - database_network
-
-  database:
-    image: kartoza/postgis:12.0
-    volumes:
-      - ./docker/postgres:/var/lib/postgresql/12/main
-    env_file: .env
-    expose:
-      - '6079'
-    ports:
-      - '6079:5432'
-    restart: on-failure
-    networks:
-      - database_network
 
   nginx:
     image: nginx:1.15.0
@@ -44,3 +28,4 @@ services:
       - backend_network
     ports:
       - '8000:80'
+

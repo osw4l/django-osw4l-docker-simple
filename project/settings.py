@@ -24,7 +24,6 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.gis',
     'django.contrib.humanize',
 ]
 
@@ -32,14 +31,15 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'rangefilter',
-    'django_extensions',
-    'rest_framework_swagger',
+    'drf_yasg',
+    'django_json_widget',
+    'colorfield',
 ]
 
 PROJECT_APPS = [
     'apps',
     'apps.utils',
+    'apps.main',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
@@ -102,16 +102,12 @@ AUTH_PASSWORD_VALIDATORS = []
 CORS_ORIGIN_WHITELIST = ()
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication'
-    ),
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),
-    'COERCE_DECIMAL_TO_STRING': False
+    'COERCE_DECIMAL_TO_STRING': False,
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }
 
 CORS_ALLOW_HEADERS = [
@@ -126,26 +122,10 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with'
 ]
 
-# AWS S3 - Bucket
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_AUTO_CREATE_BUCKET = True
-AWS_S3_FILE_OVERWRITE = False
-AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
-AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
-AWS_S3_REGION_NAME = env('AWS_S3_REGION_NAME')
-AWS_DEFAULT_ACL = None
-AWS_QUERYSTRING_AUTH = False
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': env('POSTGRES_DB'),
-        'USER': env('POSTGRES_USER'),
-        'PASSWORD': env('POSTGRES_PASS'),
-        'AUTOCOMMIT': True,
-        'HOST': env('PG_HOST'),
-        'PORT': env('PG_PORT'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -209,3 +189,5 @@ else:
     }
 
 LOGIN_URL = '/admin/login/'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

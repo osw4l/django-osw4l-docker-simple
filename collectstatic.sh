@@ -1,1 +1,1 @@
-docker exec -ti django-osw4l-simple-container python3 manage.py collectstatic
+docker exec -ti hospote-api-v1 python3 manage.py collectstatic --noinput
